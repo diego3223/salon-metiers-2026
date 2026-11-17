@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Atelier de code Lausanne Dodge - Salon des métiers 2026</title>
+
+<style>
+:root {
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  color:#edf5ff;
+  background:#071225
+}
+
+* {
+  box-sizing:border-box
+}
+
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top,#1b395d,#071225 70%);
+  min-height:100vh
+}
+
+header {
+  max-width:1500px;
+  margin:auto;
+  padding:22px 24px 12px
+}
+
+h1 {
+  font-size:clamp(24px,3vw,38px);
+  margin:0 0 6px
+}
+
+.sub {
+  color:#b2c5df;
+  margin:0
+}
+
+main {
+  max-width:1500px;
+  margin:0 auto;
+  padding:12px 24px 28px;
+  display:grid;
+  grid-template-columns:minmax(340px,0.95fr) minmax(420px,1.15fr);
+  gap:18px;
+  align-items:start
+}
+
+.panel {
+  background:#10223c;
+  border:1px solid #385170;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 16px 35px #0003
+}
+
+.panel-head {
+  padding:15px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid #334c6a
+}
+
+.panel-head h2 {
+  font-size:18px;
+  margin:0
+}
+
+.editor-wrap {
+  padding:15px
+}
+
+.hint {
+  font-size:14px;
+  line-height:1.5;
+  color:#c2d3e8;
+  margin:0 0 12px
+}
+
+#editor {
+  height:610px;
+  overflow:auto;
+  background:#071427;
+  color:#dce9ff;
+  border:1px solid #4a6482;
+  border-radius:12px;
+  padding:16px;
+  font:13px/1.85 Consolas,'Courier New',monospace;
+  tab-size:2;
+  white-space:pre;
+  outline:none
+}
+
+#editor .comment {
+  color:#7b99ad
+}
+
+#editor .keyword {
+  color:#cba8ff
+}
+
+#editor .fn {
+  color:#8ad9f6
+}
+
+#editor .editable {
+  color:#071427;
+  background:#83e8c6;
+  border:1px solid #39cfa0;
+  border-radius:4px;
+  padding:1px 4px;
+  min-width:2ch;
+  display:inline-block;
+  text-align:center;
+  font-weight:800;
+  outline:none;
+  white-space:pre
+}
+
+#editor .editable:hover {
+  box-shadow:0 0 0 2px #83e8c655;
+  cursor:text
+}
+
+#editor .editable:focus {
+  background:#fff2b0;
+  border-color:#ffc456;
+  box-shadow:0 0 0 2px #ffc45644
+}
+
+#editor .section {
+  color:#ffc97a;
+  font-weight:bold
+}
+
+#value-tooltip {
+  position:fixed;
+  z-index:1000;
+  pointer-events:none;
+  max-width:285px;
+  padding:11px 14px;
+  background:#f4fbff;
+  color:#10243d;
+  border:1px solid #9cc8d7;
+  border-radius:10px;
+  box-shadow:0 12px 35px #0008;
+  font:13px/1.5 system-ui,sans-serif;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .12s ease;
+  white-space:normal
+}
+
+#value-tooltip.visible {
+  opacity:1;
+  visibility:visible
+}
+
+#value-tooltip strong {
+  display:block;
+  margin-bottom:3px;
+  font-size:13px;
+  color:#116b59
+}
+
+.actions {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:13px
+}
+
+button {
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  font-weight:750;
+  font-size:14px;
+  cursor:pointer;
+  background:#49e3b0;
+  color:#092b29
+}
+
+button.secondary {
+  background:#2d486b;
+  color:white
+}
+
+button:hover {
+  filter:brightness(1.1)
+}
+
+#status {
+  min-height:28px;
+  font-size:14px;
+  margin:12px 2px 0;
+  color:#9ce5bd
+}
+
+#status.error {
+  color:#ff9a9a
+}
+
+.preview {
+  height:730px;
+  width:100%;
+  border:0;
+  background:#071225;
+  display:block
+}
+
+.notice {
+  font-size:13px;
+  color:#aabdd6;
+  margin:12px 0 0
+}
+
+@media(max-width:950px) {
+  main {
+  grid-template-columns:1fr
+}
+
+.preview {
+  height:760px
+}
+
+
+}
+
+@media(max-width:600px) {
+  main {
+  padding:10px
+}
+
+.preview {
+  height:800px
+}
+
+#editor {
+  height:480px
+}
+
+header {
+  padding:16px
+}
+
+
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Atelier de code Lausanne Dodge - Salon des métiers 2026</h1>
+<p class="sub">1) Modifie le code, actualise et teste ton jeu !</p>
+<p class="sub">2) Défi des developpeurs, tente de gagner un lot dans le mode compétitif en battant le premier du classement !</p>
+</header>
+
+<main>
+
+<section class="panel">
+<div class="panel-head">
+<h2>⌨️ 1. Modifie le code</h2>
+<span>JavaScript</span>
+</div>
+
+<div class="editor-wrap">
+<p class="hint">Tu vois de vrais extraits du JavaScript du jeu. <strong>Seuls les nombres en vert sont modifiables</strong>. Passe la souris dessus pour comprendre leur effet. Clique sur <strong>Actualiser le jeu</strong> pour tester tes changements.</p>
+
+<div id="editor" aria-label="Extraits du code JavaScript avec variables modifiables">
+</div>
+<div id="value-tooltip" role="tooltip" aria-hidden="true">
+</div>
+
+<div class="actions">
+<button id="refresh">↻ Actualiser le jeu</button>
+<button id="reset" class="secondary">Retour au mode compétition</button>
+</div>
+
+<p id="status" role="status" aria-live="polite">Prêt à jouer !</p>
+
+<p class="notice">Les lignes de code autour des valeurs sont en lecture seule. Les valeurs vertes sont les seules zones éditables.</p>
+
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h2>🎮 2. Teste le résultat</h2>
+<span>Jeu interactif</span>
+</div>
+<iframe id="preview" class="preview" title="Aperçu du jeu Lausanne Dodge" sandbox="allow-scripts allow-same-origin">
+</iframe>
+</section>
+
+</main>
+
+<script type="text/plain" id="game-template">
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Lausanne Dodge — Mission Astéroïdes
+  </title>
+  <style>
+   :root {
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  color:#eaf2ff;
+  background:#071225
+}
+
+* {
+  box-sizing:border-box
+}
+
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top,#19375c,#071225 70%);
+  min-height:100vh
+}
+
+.wrap {
+  max-width:1100px;
+  margin:auto;
+  padding:22px
+}
+
+.top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap
+}
+
+h1 {
+  margin:0;
+  font-size:clamp(25px,4vw,42px)
+}
+
+.muted {
+  color:#a8bad3
+}
+
+.pill {
+  background:#203c60;
+  border:1px solid #3b5c82;
+  border-radius:50px;
+  padding:9px 14px
+}
+
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 280px;
+  gap:20px;
+  margin-top:22px
+}
+
+.panel {
+  background:#0e203a;
+  border:1px solid #304a6a;
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 15px 45px #0004
+}
+
+.game {
+  position:relative
+}
+
+canvas {
+  display:block;
+  width:100%;
+  aspect-ratio:3/4;
+  max-height:68vh;
+  object-fit:contain;
+  border-radius:14px;
+  background:#101d34;
+  touch-action:none
+}
+
+.hud {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:12px;
+  font-weight:700
+}
+
+.overlay {
+  position:absolute;
+  inset:16px 16px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#06152acc;
+  border-radius:14px;
+  text-align:center;
+  padding:20px
+}
+
+.overlay.hidden {
+  display:none
+}
+
+.modal {
+  max-width:360px
+}
+
+.modal h2 {
+  font-size:30px;
+  margin:0 0 10px
+}
+
+.btn {
+  border:0;
+  border-radius:12px;
+  background:#49e3b0;
+  color:#092b29;
+  font-weight:800;
+  padding:13px 18px;
+  cursor:pointer;
+  font-size:16px
+}
+
+.btn:hover {
+  filter:brightness(1.09)
+}
+
+.btn.secondary {
+  background:#294568;
+  color:white
+}
+
+.buttons {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap
+}
+
+.leader {
+  padding:0;
+  list-style:none
+}
+
+.leader li {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:12px 10px;
+  border-bottom:1px solid #263c5a
+}
+
+.leader li:first-child {
+  color:#ffd56d
+}
+
+.leader strong {
+  font-variant-numeric:tabular-nums
+}
+
+.field {
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  background:#0b1b32;
+  color:white;
+  border:1px solid #58708b;
+  font-size:16px;
+  margin:10px 0
+}
+
+.controls {
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:12px
+}
+
+.controls button {
+  min-width:82px;
+  min-height:54px;
+  font-size:25px
+}
+
+.note {
+  font-size:13px;
+  line-height:1.5
+}
+
+.scorebig {
+  font-size:44px;
+  color:#49e3b0;
+  font-weight:900;
+  margin:8px
+}
+
+.foot {
+  margin-top:16px;
+  font-size:13px;
+  color:#9eb1cb
+}
+
+@media(max-width:760px) {
+  .layout {
+  grid-template-columns:1fr
+}
+
+canvas {
+  max-height:60vh
+}
+
+.wrap {
+  padding:12px
+}
+
+
+}
+  </style>
+ </head>
+ <body>
+  <div class="wrap">
+   <header class="top">
+   </header>
+   <div class="layout">
+    <section class="panel game">
+     <div class="hud">
+      <span>
+       ⭐ Score :
+       <span id="score">
+        0
+       </span>
+      </span>
+      <span>
+       ❤️
+       <span id="lives">
+        __LIVES__
+       </span>
+      </span>
+      <span>
+       ⚡ Niveau
+       <span id="level">
+        1
+       </span>
+      </span>
+     </div>
+     <canvas aria-label="Jeu d'esquive" height="640" id="board" width="480">
+     </canvas>
+     <div class="overlay" id="overlay">
+      <div class="modal" id="modal">
+       <h2>
+        Évite les astéroïdes !
+       </h2>
+       <p>
+        D&eacute;place ton personnage avec
+        <b>
+         &larr; &rarr;
+        </b>
+        ou
+        <b>
+         A / D.
+        </b>
+        <br/>
+          Sur mobile, utilise les deux boutons.
+       </p>
+       <p>
+        Pilote dans un champ d’astéroïdes, ramasse les &eacute;toiles et bats le record du salon !
+       </p>
+       <button class="btn" id="start">
+        Jouer maintenant ▶
+       </button>
+      </div>
+     </div>
+     <div class="controls" aria-label="Déplacement horizontal">
+      <button aria-label="Aller à gauche" class="btn secondary" id="left">←</button>
+      <button aria-label="Aller à droite" class="btn secondary" id="right">→</button>
+     </div>
+    </section>
+    <aside class="panel">
+      <h2>
+        Classement de la journée
+      </h2>
+     <h2>
+      🏆 Top 10
+     </h2>
+     <p class="muted note">
+      Les meilleurs scores enregistr&eacute;s sur cet appareil.
+     </p>
+     <ol class="leader" id="leaders">
+     </ol>
+     <div class="buttons">
+      <button class="btn secondary" id="fullscreen">
+       ⛶ Plein &eacute;cran
+      </button>
+     </div>
+     <p class="note muted">
+      🌟 Chaque étoile récupérée apporte 1'000 points supplémentaire au score du joueur.
+     </p>
+     <p class="note muted">
+      🔒 Utilisez des pseudos, pas de noms complets.
+     </p>
+    </aside>
+   </div>
+   <p class="foot">
+    Un mini-jeu HTML/CSS/JavaScript hors ligne &middot; aucune installation n&eacute;cessaire
+   </p>
+  </div>
+  
+  <script>
+    (() => {
+        'use strict';
+
+        // Initialisation
+        const cvs = document.getElementById('board');
+        const ctx = cvs.getContext('2d');
+        const W = 480;
+        const H = 640;
+
+        const overlay = document.getElementById('overlay');
+        const modal = document.getElementById('modal');
+
+        const $ = id => document.getElementById(id);
+        const KEY = 'lausanne-dodge-scores-v1';
+
+        let scores = [];
+
+        try {
+            scores = JSON.parse(localStorage.getItem(KEY) || '[]');
+
+            if (!Array.isArray(scores)) {
+                scores = [];
+            }
+        } catch {}
+
+        const clean = s => String(s).replace(/[<>]/g, '').slice(0, 16);
+
+        // Classement
+        function board() {
+            const el = $('leaders');
+            el.replaceChildren();
+
+            if (!scores.length) {
+                const li = document.createElement('li');
+                li.textContent = 'Aucun score — sois le premier !';
+                el.append(li);
+            }
+
+            scores.sort((a, b) => b.score - a.score)
+                .slice(0, 10)
+                .forEach((s, i) => {
+                    let li = document.createElement('li');
+                    let name = document.createElement('span');
+                    let score = document.createElement('strong');
+
+                    name.textContent = `${i + 1}. ${clean(s.name)}`;
+                    score.textContent = s.score;
+
+                    li.append(name, score);
+                    el.append(li);
+                });
+        }
+
+        board();
+
+        // Variables du jeu
+        let state = 'menu';
+        let player, obs, stars, particles, t, score, lives;
+        let spawn, starSpawn, invuln;
+        let last = 0;
+        let raf = 0;
+
+        let keys = {
+            left: false,
+            right: false
+        };
+
+        const rnd = (a, b) => a + Math.random() * (b - a);
+
+        // Réinitialisation du jeu
+        function reset() {
+            player = {
+                x: W / 2,
+                y: H - 72,
+                r: 18
+            };
+
+            obs = [];
+            stars = [];
+            particles = [];
+
+            t = 0;
+            score = 0;
+            lives = __LIVES__;
+            spawn = 0;
+            starSpawn = 1;
+            invuln = 0;
+            last = 0;
+
+            state = 'playing';
+
+            overlay.classList.add('hidden');
+
+            $('score').textContent = 0;
+            $('lives').textContent = __LIVES__;
+            $('level').textContent = 1;
+
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(loop);
+        }
+
+        // Fin de partie
+        function end() {
+            state = 'over';
+
+            overlay.classList.remove('hidden');
+            modal.replaceChildren();
+
+            const h = document.createElement('h2');
+            h.textContent = 'Partie terminée !';
+
+            const p = document.createElement('div');
+            p.className = 'scorebig';
+            p.textContent = score + ' pts';
+
+            const desc = document.createElement('p');
+            desc.textContent = 'Inscris ton pseudo pour apparaître au classement.';
+
+            const input = document.createElement('input');
+            input.className = 'field';
+            input.maxLength = 16;
+            input.placeholder = 'Ton pseudo';
+            input.setAttribute('aria-label', 'Pseudo');
+
+            const save = document.createElement('button');
+            save.className = 'btn';
+            save.textContent = 'Enregistrer mon score';
+
+            const again = document.createElement('button');
+            again.className = 'btn secondary';
+            again.textContent = 'Rejouer';
+
+            const btns = document.createElement('div');
+            btns.className = 'buttons';
+            btns.append(save, again);
+
+            modal.append(h, p, desc, input, btns);
+
+            save.onclick = () => {
+                const name = clean(input.value.trim()) || 'Anonyme';
+
+                scores.push({
+                    name,
+                    score
+                });
+
+                scores.sort((a, b) => b.score - a.score);
+                scores = scores.slice(0, 10);
+
+                try {
+                    localStorage.setItem(KEY, JSON.stringify(scores));
+                } catch {}
+
+                board();
+
+                save.disabled = true;
+                save.textContent = 'Score enregistré ✓';
+            };
+
+            again.onclick = reset;
+
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    save.click();
+                }
+            });
+
+            input.focus();
+        }
+
+        // Détection des collisions
+        function circleRect(c, r) {
+            let x = Math.max(r.x, Math.min(c.x, r.x + r.w));
+            let y = Math.max(r.y, Math.min(c.y, r.y + r.h));
+
+            return (c.x - x) ** 2 + (c.y - y) ** 2 < c.r * c.r;
+        }
+
+        // Étoiles lointaines : positions fixes pour éviter les scintillements aléatoires
+        const spaceDust = Array.from({ length: 95 }, (_, i) => ({
+            x: (i * 173.3 + 41) % W,
+            y: (i * 127.7 + 83) % H,
+            r: i % 7 === 0 ? 1.7 : 0.7,
+            alpha: 0.25 + (i % 5) * 0.13
+        }));
+
+        // Collision entre le vaisseau et un astéroïde rond
+        function circleCircle(a, b) {
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            return dx * dx + dy * dy < (a.r + b.r * 0.82) ** 2;
+        }
+
+        // Dessin du jeu
+        function draw() {
+            const grd = ctx.createLinearGradient(0, 0, 0, H);
+
+            grd.addColorStop(0, '#0b2544');
+            grd.addColorStop(1, '#09172b');
+
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, W, H);
+
+            // Nébuleuses discrètes et champ d'étoiles
+            const nebula = ctx.createRadialGradient(100, 150, 10, 100, 150, 230);
+            nebula.addColorStop(0, 'rgba(95, 52, 155, 0.23)');
+            nebula.addColorStop(1, 'rgba(95, 52, 155, 0)');
+            ctx.fillStyle = nebula;
+            ctx.fillRect(0, 0, W, H);
+
+            for (const dot of spaceDust) {
+                ctx.globalAlpha = dot.alpha;
+                ctx.fillStyle = '#d8eaff';
+                ctx.beginPath();
+                ctx.arc(dot.x, (dot.y + (t || 0) * (9 + dot.r * 5)) % H, dot.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+
+            ctx.strokeStyle = '#254669';
+            ctx.lineWidth = 1;
+
+            let off = ((t || 0) * 85) % 64;
+
+            // Quadrillage
+            for (let x = 32; x < W; x += 64) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, H);
+                ctx.stroke();
+            }
+
+            for (let y = off - 64; y < H; y += 64) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(W, y);
+                ctx.stroke();
+            }
+
+            // Étoiles
+            for (let s of stars) {
+                ctx.save();
+                ctx.translate(s.x, s.y);
+                ctx.rotate(t * 2);
+
+                ctx.fillStyle = '#ffda61';
+                ctx.beginPath();
+
+                for (let i = 0; i < 10; i++) {
+                    let a = i * Math.PI / 5 - Math.PI / 2;
+                    let r = i % 2 ? 7 : 15;
+
+                    ctx.lineTo(
+                        Math.cos(a) * r,
+                        Math.sin(a) * r
+                    );
+                }
+
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Astéroïdes rocheux : contours irréguliers, ombres et cratères
+            for (const o of obs) {
+                ctx.save();
+                ctx.translate(o.x, o.y);
+                ctx.rotate(o.angle);
+
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+                ctx.shadowBlur = 15;
+
+                const rock = ctx.createRadialGradient(-o.r * 0.3, -o.r * 0.35, 3, 0, 0, o.r * 1.2);
+                rock.addColorStop(0, '#b7a69a');
+                rock.addColorStop(0.55, '#776b71');
+                rock.addColorStop(1, '#3c354a');
+                ctx.fillStyle = rock;
+                ctx.strokeStyle = '#c6a897';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let i = 0; i < o.shape.length; i++) {
+                    const a = i * Math.PI * 2 / o.shape.length;
+                    const radius = o.r * o.shape[i];
+                    const x = Math.cos(a) * radius;
+                    const y = Math.sin(a) * radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.stroke();
+
+                // Cratères de tailles différentes
+                for (const crater of o.craters) {
+                    ctx.fillStyle = '#443d49';
+                    ctx.beginPath();
+                    ctx.ellipse(crater.x, crater.y, crater.r, crater.r * 0.72, 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(225, 205, 180, 0.45)';
+                    ctx.lineWidth = 1.8;
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // Personnage
+            if (player) {
+                ctx.save();
+                ctx.translate(player.x, player.y);
+
+                if (invuln > 0 && Math.floor(t * 12) % 2) {
+                    ctx.globalAlpha = .35;
+                }
+
+                ctx.shadowColor = '#48e9c4';
+                ctx.shadowBlur = 18;
+                ctx.fillStyle = '#48e9c4';
+
+                ctx.beginPath();
+                ctx.arc(0, 0, player.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#102b40';
+
+                // Yeux
+                ctx.beginPath();
+                ctx.arc(-6, -4, 3, 0, 7);
+                ctx.arc(6, -4, 3, 0, 7);
+                ctx.fill();
+
+                // Sourire
+                ctx.strokeStyle = '#102b40';
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+                ctx.arc(0, 2, 7, 0, Math.PI);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        // Boucle principale du jeu
+        function loop(now) {
+            if (state !== 'playing') {
+                return;
+            }
+
+            let dt = Math.min((now - (last || now)) / 1000, .04);
+            last = now;
+
+            t += dt;
+            score += Math.floor(dt * 30 + 0.7);
+
+            let level = 1 + Math.floor(t / 15);
+            let speed = __BASE_SPEED__ + level * __LEVEL_SPEED__;
+
+            spawn -= dt;
+            starSpawn -= dt;
+            invuln = Math.max(0, invuln - dt);
+
+            // Déplacement du personnage
+            if (keys.left) {
+                player.x -= __PLAYER_SPEED__ * dt;
+            }
+
+            if (keys.right) {
+                player.x += __PLAYER_SPEED__ * dt;
+            }
+
+            player.x = Math.max(player.r, Math.min(W - player.r, player.x));
+
+            // Génération des obstacles
+            if (spawn <= 0) {
+                const r = rnd(__R_MIN__, __R_MAX__);
+                obs.push({
+                    x: rnd(r, W - r),
+                    y: -r,
+                    r,
+                    angle: rnd(0, Math.PI * 2),
+                    spin: rnd(-1.7, 1.7),
+                    shape: Array.from({ length: 11 }, () => rnd(0.78, 1.12)),
+                    craters: [
+                        { x: -r * 0.26, y: -r * 0.16, r: r * 0.2 },
+                        { x: r * 0.3, y: r * 0.14, r: r * 0.14 },
+                        { x: r * 0.03, y: r * 0.43, r: r * 0.1 }
+                    ]
+                });
+
+                spawn = Math.max(__SPAWN_MIN__, __SPAWN_START__ - level * .055);
+            }
+
+            // Génération des étoiles
+            if (starSpawn <= 0) {
+                stars.push({
+                    x: rnd(50, W - 24),
+                    y: -20,
+                    r: 30
+                });
+
+                starSpawn = rnd(2, 2.8);
+            }
+
+            // Déplacement des obstacles et des étoiles
+            for (let o of obs) {
+                o.y += speed * dt;
+                o.angle += o.spin * dt;
+            }
+
+            for (let s of stars) {
+                s.y += (speed * 1.3) * dt;
+            }
+
+            // Suppression des éléments hors écran
+            obs = obs.filter(o => o.y < H + o.r);
+            stars = stars.filter(s => s.y < H + 30);
+
+            // Collision avec les obstacles
+            for (let o of obs) {
+                if (invuln === 0 && circleCircle(player, o)) {
+                    lives--;
+                    invuln = 1.3;
+                    o.y = H + 100;
+
+                    if (lives <= 0) {
+                        $('lives').textContent = 0;
+                        draw();
+                        end();
+                        return;
+                    }
+                }
+            }
+
+            // Récupération des étoiles
+            stars = stars.filter(s => {
+                if (
+                    (s.x - player.x) ** 2 +
+                    (s.y - player.y) ** 2 <
+                    (s.r + player.r) ** 2
+                ) {
+                    score += __STAR_POINTS__;
+                    return false;
+                }
+
+                return true;
+            });
+
+            // Mise à jour de l'interface
+            $('score').textContent = score;
+            $('lives').textContent = lives;
+            $('level').textContent = level;
+
+            draw();
+            raf = requestAnimationFrame(loop);
+        }
+
+        // Bouton de démarrage
+        $('start').onclick = reset;
+
+        // Contrôles au clavier
+        document.addEventListener('keydown', e => {
+            if (['ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
+            }
+
+            if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
+                keys.left = true;
+            }
+
+            if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') {
+                keys.right = true;
+            }
+        });
+
+        document.addEventListener('keyup', e => {
+            if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
+                keys.left = false;
+            }
+
+            if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') {
+                keys.right = false;
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            keys.left = keys.right = false;
+        });
+
+        // Contrôles tactiles
+        for (let [id, dir] of [['left', 'left'], ['right', 'right']]) {
+            const el = $(id);
+
+            el.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                keys[dir] = true;
+                el.setPointerCapture(e.pointerId);
+            });
+
+            for (let ev of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+                el.addEventListener(ev, () => keys[dir] = false);
+            }
+        }
+
+        // Mode plein écran
+        $('fullscreen').onclick = () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        };
+
+        // Affichage initial
+        obs = []; stars = []; t = 0; invuln = 0;
+        draw();
+    })();
+<\/script>
+
+ </body>
+</html>
+
+</script>
+
+<script>
+// Le code source complet du jeu est juste au-dessus, lisible et modifiable.
+const template = document.getElementById('game-template').textContent.split('<\\/script>').join('</scr' + 'ipt>');
+
+const defaults = {VIES:1,VITESSE_JOUEUR:310,VITESSE_ASTEROIDES:250,ACCELERATION:150,TAILLE_MIN:40,TAILLE_MAX:70,DELAI_APPARITION:1.2,DELAI_MIN:0.24,POINTS_ETOILE:1000};
+
+const editor = document.getElementById('editor');
+
+const status = document.getElementById('status');
+
+const frame = document.getElementById('preview');
+
+const val = name => `<span class="editable" contenteditable="true" role="textbox" aria-label="Modifier ${name}" spellcheck="false" data-key="${name}">${defaults[name]}</span>`;
+
+function showCode(){
+
+ editor.innerHTML = `<span class="comment">// Extraits du vrai code du jeu Lausanne Dodge</span>
+
+<span class="comment">// Modifie uniquement les nombres sur fond vert.</span>
+
+<span class="section">// 1. Réinitialisation de la partie</span>
+
+<span class="keyword">function</span> <span class="fn">reset</span>() {
+
+    player = {
+        x: W / 2,
+        y: H - 72,
+        r: 18
+    };
+
+    obs = [];
+    stars = [];
+    score = 0;
+    lives = ${val('VIES')};
+    spawn = 0;
+    starSpawn = 1;
+
+}
+
+<span class="section">// 2. Boucle principale : vitesse des astéroïdes</span>
+
+<span class="keyword">function</span> <span class="fn">loop</span>(now) {
+
+    let level = 1 + Math.floor(t / 15);
+
+    let speed = ${val('VITESSE_ASTEROIDES')} + level * ${val('ACCELERATION')};
+
+    <span class="comment">// Déplacement du personnage (vitesseJoueur = valeur verte)</span>
+
+    const vitesseJoueur = ${val('VITESSE_JOUEUR')};
+
+    if (keys.left) {
+        player.x -= vitesseJoueur * dt;
+    }
+
+    if (keys.right) {
+        player.x += vitesseJoueur * dt;
+    }
+
+    <span class="comment">// Génération des astéroïdes</span>
+
+    if (spawn &lt;= 0) {
+        const r = rnd(${val('TAILLE_MIN')}, ${val('TAILLE_MAX')});
+        obs.push({
+            x: rnd(r, W - r),
+            y: -r,
+            r,
+            angle: rnd(0, Math.PI * 2),
+            spin: rnd(-1.7, 1.7)
+        });
+
+        spawn = Math.max(${val('DELAI_MIN')}, ${val('DELAI_APPARITION')} - level * .055);
+
+    }
+
+    <span class="comment">// Descente des astéroïdes</span>
+
+    for (let o of obs) {
+        o.y += speed * dt;
+        o.angle += o.spin * dt;
+    }
+
+    <span class="comment">// Récupération des étoiles</span>
+
+    stars = stars.filter(s =&gt; {
+
+        if (circleCircle(player, s)) {
+            score += ${val('POINTS_ETOILE')};
+            return false;
+        }
+
+        return true;
+
+    });
+}`;
+
+}
+
+showCode();
+
+// Explications pédagogiques de chaque nombre modifiable.
+
+const descriptions = {
+
+ VIES:['Nombre de vies','Définit combien de fois le joueur peut toucher un astéroïde avant la fin de la partie. 1 = une collision et la partie est terminée.'],
+
+ VITESSE_JOUEUR:['Vitesse du personnage','Définit la vitesse de déplacement du personnage horizontal : gauche et droite (en pixels par seconde).'],
+
+ VITESSE_ASTEROIDES:['Vitesse initiale des astéroïdes','Vitesse de base de la descente des astéroïdes, avant le bonus lié au niveau (en pixels par seconde).'],
+
+ ACCELERATION:['Accélération par niveau','Valeur ajoutée à la vitesse des astéroïdes pour chaque niveau. Plus elle est élevée, plus les astéroïdes deviennent rapides.'],
+
+ TAILLE_MIN:['Taille minimale des astéroïdes','Rayon minimal d’un astéroïde généré, en pixels. Plus ce nombre est grand, plus les petits astéroïdes sont gros.'],
+
+ TAILLE_MAX:['Taille maximale des astéroïdes','Rayon maximal d’un astéroïde généré, en pixels. Augmente-le pour faire apparaître de très gros astéroïdes.'],
+
+ DELAI_APPARITION:['Délai de départ entre les astéroïdes','Temps initial entre deux apparitions d’astéroïdes, en secondes. Une valeur plus petite fait apparaître davantage d’astéroïdes.'],
+
+ DELAI_MIN:['Délai minimum entre les astéroïdes','Temps minimum entre deux apparitions, même aux niveaux élevés (en secondes). Une valeur plus petite rend le jeu plus chargé.'],
+
+ POINTS_ETOILE:['Points par étoile','Nombre de points ajoutés au score chaque fois que le joueur récupère une étoile.']
+
+};
+
+const tooltip = document.getElementById('value-tooltip');
+
+let hoveredValue = null;
+
+function positionTooltip(x,y){
+
+ const gap=16, width=tooltip.offsetWidth||285, height=tooltip.offsetHeight||100;
+
+ const left=Math.max(8,Math.min(x+gap,innerWidth-width-8));
+
+ const top=y+gap+height>innerHeight ? Math.max(8,y-height-gap) : y+gap;
+
+ tooltip.style.left=left+'px';tooltip.style.top=top+'px';
+
+}
+
+function showTooltip(el,x,y){
+
+ const item=descriptions[el.dataset.key];if(!item)return;
+
+ hoveredValue=el;
+
+ tooltip.replaceChildren();
+
+ const heading=document.createElement('strong');heading.textContent=item[0];
+
+ const description=document.createElement('span');description.textContent=item[1];
+
+ tooltip.append(heading,description);
+
+ tooltip.classList.add('visible');tooltip.setAttribute('aria-hidden','false');
+
+ positionTooltip(x,y);
+
+}
+
+function hideTooltip(){hoveredValue=null;tooltip.classList.remove('visible');tooltip.setAttribute('aria-hidden','true');}
+
+editor.addEventListener('pointerover',e=>{
+
+ const el=e.target.closest('.editable');if(el && el!==hoveredValue)showTooltip(el,e.clientX,e.clientY);
+
+});
+
+editor.addEventListener('pointermove',e=>{if(hoveredValue)positionTooltip(e.clientX,e.clientY);});
+
+editor.addEventListener('pointerout',e=>{
+
+ if(hoveredValue && !hoveredValue.contains(e.relatedTarget))hideTooltip();
+
+});
+
+editor.addEventListener('focusin',e=>{
+
+ const el=e.target.closest('.editable');if(el){const r=el.getBoundingClientRect();showTooltip(el,r.right,r.top);}
+
+});
+
+editor.addEventListener('focusout',e=>{if(e.target.closest('.editable'))hideTooltip();});
+
+editor.addEventListener('scroll',hideTooltip);
+
+// Empêche les retours à la ligne dans les petites zones de valeurs.
+
+editor.addEventListener('keydown', e => {
+
+ if(e.target.classList.contains('editable') && e.key === 'Enter') e.preventDefault();
+
+});
+
+const rules = [
+
+ ['VIES','__LIVES__',1,10],
+
+ ['VITESSE_JOUEUR','__PLAYER_SPEED__',50,1500],
+
+ ['VITESSE_ASTEROIDES','__BASE_SPEED__',20,1500],
+
+ ['ACCELERATION','__LEVEL_SPEED__',0,500],
+
+ ['TAILLE_MIN','__R_MIN__',10,130],
+
+ ['TAILLE_MAX','__R_MAX__',10,150],
+
+ ['DELAI_APPARITION','__SPAWN_START__',0.3,5],
+
+ ['DELAI_MIN','__SPAWN_MIN__',0.15,3],
+
+ ['POINTS_ETOILE','__STAR_POINTS__',0,100000]
+
+];
+
+function apply(){
+
+ try {
+
+  const values={};
+
+  for(const [name,token,min,max] of rules){
+
+   const raw=editor.querySelector(`[data-key="${name}"]`).textContent.trim();
+
+   if(!/^-?\d+(?:\.\d+)?$/.test(raw))throw new Error(name+' : saisis uniquement un nombre.');
+
+   const n=Number(raw);
+
+   if(!Number.isFinite(n)||n<min||n>max)throw new Error(name+' doit être compris entre '+min+' et '+max+'.');
+
+   values[name]=n;
+
+  }
+
+  if(values.TAILLE_MIN>values.TAILLE_MAX)throw new Error('TAILLE_MIN doit être inférieur ou égal à TAILLE_MAX.');
+
+  if(values.DELAI_MIN>values.DELAI_APPARITION)throw new Error('DELAI_MIN doit être inférieur ou égal à DELAI_APPARITION.');
+
+  let html=template;
+
+  for(const [name,token] of rules)html=html.replaceAll(token,String(values[name]));
+
+  frame.srcdoc=html;
+
+  status.classList.remove('error');status.textContent='✓ Jeu actualisé ! Clique sur « Jouer maintenant » à droite.';
+
+ }catch(e){status.classList.add('error');status.textContent='⚠ '+e.message;}
+
+}
+
+document.getElementById('refresh').addEventListener('click',apply);
+
+document.getElementById('reset').addEventListener('click',()=>{showCode();apply();});
+
+apply();
+</script></body>
+</html>
